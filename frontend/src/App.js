@@ -1,22 +1,19 @@
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import React from "react";
+import { browserHistory } from "utils/history";
+import { Router, Route, Switch, Redirect } from "react-router-dom";
+import Post from "components/post";
+import Home from "components/home";
+import Notfound from "components/404";
+
+const App = () => {
+  return ( <Router history={browserHistory}>
+    <Switch>
+      <Route exact path="/posts/:id" component={Post} />
+      <Route exact path="/404" component={Notfound} />
+      <Route exact path="/" component={Home} />
+      <Redirect to="/404" />
+    </Switch>
+  </Router>);
 }
 
 export default App;
