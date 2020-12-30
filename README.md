@@ -2,7 +2,7 @@
 This is project will show you how to combine ReactJS and Golang into single container.
 
 ## Usage
-In the project I set default port is `8080`.
+In the project I set default port is `8080`. You can change it by set `$PORT` in your environment.
 ### Prerequisite
 * **With docker:** You need installed `docker` *(if you are run it with docker)* and `docker-compose` *(if you run it with docker-compose)*. I placed links tutorial in here ([docker](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-18-04) and [docker-compose](https://docs.docker.com/compose/install/)) 
 * **Without docker:** You need install `go (>=1.14)`, `nodejs (>= 12)` and `yarn`.  

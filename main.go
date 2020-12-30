@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"os"
@@ -43,7 +44,11 @@ func main() {
 	 *  Start and graceful shutdown server
 	 */
 	go func() {
-		if err := server.Start("0.0.0.0:8080"); err != nil {
+		port := "8080"
+		if v, ok := os.LookupEnv("PORT"); ok {
+			port = v
+		}
+		if err := server.Start(fmt.Sprintf("0.0.0.0:%s", port)); err != nil {
 			server.Logger.Info("shutting down the server")
 		}
 	}()

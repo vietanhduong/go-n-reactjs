@@ -50,5 +50,7 @@ ENV TZ=Asia/Ho_Chi_Minh
 
 COPY --from=builder /go-n-reactjs/app /go/bin/app
 
-ENTRYPOINT ["/go/bin/app"]
+EXPOSE 8080
+
+CMD ["/go/bin/app"]
 
