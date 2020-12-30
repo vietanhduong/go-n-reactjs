@@ -19,7 +19,7 @@ docker-compose up --build
 
 ### Without `docker`
 ```shell
-# Build need to build `frontend` first
+# You need to build `frontend` first
 cd ./frontend
 yarn build
 # After this phase you will see a build folder inside current folder
