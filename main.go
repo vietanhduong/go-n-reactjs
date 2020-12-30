@@ -2,10 +2,13 @@ package main
 
 import (
 	"context"
+	"io/ioutil"
+	"net/http"
 	"os"
 	"os/signal"
 	"time"
 
+	rice "github.com/GeertJohan/go.rice"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/labstack/gommon/log"
@@ -26,13 +29,18 @@ func main() {
 	}))
 
 	/**
+	 * Register frontend
+	 */
+	RegisterFrontend(server)
+
+	/**
 	 * Init group API and register API
 	 */
 	v1 := server.Group("/api/v1")
 	RegisterPostAPI(v1)
 
 	/**
-	 *  Start and shutdown server
+	 *  Start and graceful shutdown server
 	 */
 	go func() {
 		if err := server.Start("0.0.0.0:8080"); err != nil {
@@ -48,5 +56,27 @@ func main() {
 	if err := server.Shutdown(ctx); err != nil {
 		server.Logger.Fatal(err)
 	}
+}
 
+/**
+ *  Register frontend to Server
+ */
+func RegisterFrontend(e *echo.Echo) {
+	frontend := rice.MustFindBox("./frontend/build")
+	fe := http.FileServer(frontend.HTTPBox())
+
+	e.GET("/static/*", echo.WrapHandler(fe))
+
+	// IMPORTANT STEP
+	e.GET("/*", func(c echo.Context) error {
+		index, err := frontend.Open("index.html")
+		if err != nil {
+			return err
+		}
+		content, err := ioutil.ReadAll(index)
+		if err != nil {
+			return err
+		}
+		return c.HTMLBlob(http.StatusOK, content)
+	})
 }

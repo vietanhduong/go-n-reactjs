@@ -1,11 +1,11 @@
 import axios from "axios";
 
-const API = process.env.REACT_APP_API || "";
+const API = process.env.REACT_APP_API || "/api/v1";
 
 export const fetchPosts = async () => {
     const res = await axios.get(`${API}/posts`);
     const data = await res.data;
-    return data.content;
+    return data.content || [];
 }
 
 export const getPost = async (id) => {
